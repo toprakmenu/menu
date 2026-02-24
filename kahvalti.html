@@ -1,36 +1,54 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>KAHVALTI</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KAHVALTI • Toprak Bakery House</title>
 
   <style>
     :root{
       --bg:#f3f3f3;
       --card:#ffffff;
-      --text:#111114;
-      --muted:#6b7280;
+
+      --text:#2b2b2b;
+      --muted:#7a7a7a;
+
       --line:#e2e2e2;
-      --gold:#caa24a; /* fiyat rengi */
-      --shadow:0 18px 44px rgba(0,0,0,.18);
-      --radius:18px;
+      --line-2:#dddddd;
+
+      /* Toprak’a özel vurgu */
+      --gold:#c48a3a;
+
+      --surface:#ffffff;
+      --surface-2:#f7f7f7;
+
+      --backdrop: rgba(0,0,0,.65);
+      --close-border: rgba(255,255,255,.35);
+      --close-bg: rgba(0,0,0,.35);
+      --white:#ffffff;
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
     }
 
-    /* üst bar */
-    .top{
-      position:sticky; top:0; z-index:10;
-      background:#fff;
-      border-bottom:1px solid var(--line);
-      padding:12px 12px;
-      display:flex; align-items:center; justify-content:space-between;
+    /* basit üst bar (kahvalti.html için) */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap:10px;
     }
     .back{
@@ -38,232 +56,294 @@
       text-decoration:none;
       font-weight:900;
     }
+    .page-title{
+      font-weight:900;
+      letter-spacing:.5px;
+    }
 
     .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:14px 12px 110px;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px;
     }
-    h1{margin:6px 0 14px;font-size:20px}
 
-    /* liste kartları (sayfa içi) */
-    .list{display:grid; gap:12px}
-    .row{
-      display:grid;
-      grid-template-columns:110px 1fr;
-      gap:12px;
+    .section{ margin: 10px 0 26px; }
+    .section h2{ margin: 0 0 10px; font-size: 18px; letter-spacing: .2px; }
+
+    /* ITEM (eski sitedekiyle aynı) */
+    .item{
+      display:flex;
       align-items:center;
-      padding:10px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:14px;
-      box-shadow:0 10px 24px rgba(0,0,0,.08);
+      gap:12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 14px;
       text-decoration:none;
-      color:inherit;
-      cursor:pointer;
-    }
-    .thumb{
-      width:110px; height:90px;
-      border-radius:12px;
-      overflow:hidden;
-      background:#ddd;
-    }
-    .thumb img{width:100%; height:100%; object-fit:cover; display:block}
-    .name{font-weight:950; letter-spacing:.2px}
-    .desc{margin-top:4px; color:var(--muted); font-size:13px; line-height:1.25}
-    .price{margin-top:8px; font-weight:950}
-    .hint{margin-top:10px; color:var(--muted); font-size:12px}
-
-    /* POPUP / LIGHTBOX */
-    .overlay{
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      z-index:50;
-    }
-    .overlay.open{display:flex}
-
-    /* ekran görüntüsündeki gibi "kart" */
-    .popupCard{
-      width:min(560px, 100%);
-      border-radius:22px;
-      overflow:hidden;
-      background:rgba(255,255,255,.95);
-      box-shadow:var(--shadow);
-      border:1px solid rgba(255,255,255,.35);
-      position:relative;
+      color: var(--text);
+      margin-bottom: 10px;
     }
 
-    .popupImage{
-      width:100%;
-      height:min(58vh, 420px);
-      background:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px;
+    .item__img{
+      width:72px;
+      height:72px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex: 0 0 72px;
+      background: var(--surface-2);
+      border: 1px solid var(--line-2);
     }
 
-    /* kırpma olmasın: contain */
-    .popupImage img{
-      width:100%;
-      height:100%;
-     object-fit:contain;
-      display:block;
-      border-radius:16px;
-      background:#fff;
+    .item__body{ min-width: 0; flex: 1; }
+    .item__name{ font-weight: 750; font-size: 15px; }
+    .item__desc{ margin-top: 4px; font-size: 13px; color: var(--muted); line-height: 1.25; }
+    .item__price{ font-weight: 800; font-size: 14px; padding-left: 8px; white-space: nowrap; }
+
+    /* LIGHTBOX (eski sitedekiyle birebir mantık) */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.20s ease, visibility 0s linear 0.20s;
     }
 
-    /* sağ üst X (yuvarlak, gold çerçeve hissi) */
-    .closeBtn{
+    .lightbox.is-open{
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: opacity 0.20s ease, visibility 0s linear 0s;
+    }
+
+    .lightbox__backdrop{
       position:absolute;
-      top:12px; right:12px;
-      width:46px; height:46px;
-      border-radius:999px;
-      border:2px solid rgba(202,162,74,.75);
-      background:rgba(0,0,0,.45);
-      color:#fff;
-      font-size:22px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      backdrop-filter: blur(6px);
+      inset:0;
+      background: var(--backdrop);
+      opacity: 0;
+      transition: opacity 0.20s ease;
+    }
+    .lightbox.is-open .lightbox__backdrop{ opacity: 1; }
+
+    .lightbox__panel{
+      position: relative;
+      width: min(92vw, 860px);
+      background: transparent;
+      z-index: 2;
+      transform-origin: 50% 30%;
+      transform: translateY(10px) scale(0.98);
+      transition: transform 0.22s ease;
+    }
+    .lightbox.is-open .lightbox__panel{ transform: translateY(0) scale(1); }
+
+    .lightbox__content{
+      background: var(--surface);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      padding: 12px; /* ✅ eski görünümdeki beyaz çerçeve hissi */
     }
 
-    /* alt bar: isim solda fiyat sağda */
-    .popupFooter{
-      background:#fff;
-      border-top:1px solid rgba(0,0,0,.06);
-      padding:14px 16px;
+    /* ✅ kritik nokta: height auto -> kırpma yok, resim tam görünür */
+    .lightbox__img{
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+    }
+
+    .lightbox__meta{
+      padding: 16px 6px 6px;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .lightbox__title{ font-weight: 900; font-size: 18px; color: var(--text); }
+    .lightbox__price{ font-weight: 1000; font-size: 18px; color: var(--gold); }
+
+    .lightbox__desc{
+      padding: 0 6px 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .lightbox__close{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 50;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--close-border);
+      background: var(--close-bg);
+      color: var(--white);
+      font-size: 22px;
+      cursor: pointer;
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .popupTitle{
-      font-weight:950;
-      font-size:20px;
-      line-height:1.1;
-    }
-    .popupPrice{
-      font-weight:1000;
-      font-size:22px;
-      color:var(--gold);
-      white-space:nowrap;
+      justify-content:center;
     }
 
-    /* açıklama (istersen açık kalsın) */
-    .popupDesc{
-      padding:0 16px 16px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.35;
-      margin:0;
+    /* X butonu glow: (eski sitedeki gibi) */
+    .lightbox__close:hover,
+    .lightbox__close:focus,
+    .lightbox__close:focus-visible,
+    .lightbox__close:active{
+      outline: none;
+      box-shadow:
+        0 0 0 2px rgba(245,196,107,0.55),
+        0 0 10px rgba(245,196,107,0.45);
+    }
+    .lightbox.is-open .lightbox__close{
+      box-shadow:
+        0 0 0 2px rgba(245,196,107,0.45),
+        0 0 12px rgba(245,196,107,0.35);
     }
   </style>
 </head>
 
 <body>
-  <div class="top">
+
+  <header class="topbar">
     <a class="back" href="index.html">← GERİ</a>
-    <div style="font-weight:950">KAHVALTI</div>
-    <div style="width:44px"></div>
-  </div>
+    <div class="page-title">KAHVALTI</div>
+    <div style="width:60px"></div>
+  </header>
 
   <main class="wrap">
-    <h1>KAHVALTI</h1>
+    <section class="section" id="kahvalti">
+      <h2>Kahvaltı</h2>
 
-    <div class="list">
-      <!-- TOPRAK GRANOLA -->
-      <a class="row"
-         data-name="Toprak Granola"
-         data-price="380 TL"
-         data-img="images/toprakgranola.webp"
-         data-desc="El yapımı granola, süzme yoğurt, mevsim meyveleri ve yer fıstığı ezmesi. (Glutensiz-çiğ karabuğday granola seçeneği +40)">
-        <div class="thumb"><img src="images/toprakgranola.webp" alt="Toprak Granola"></div>
-        <div>
-          <div class="name">Toprak Granola</div>
-          <div class="desc">El yapımı granola, süzme yoğurt, mevsim meyveleri…</div>
-          <div class="price">380 TL</div>
+      <a class="item" href="javascript:void(0)">
+        <img class="item__img" src="images/toprakgranola.webp" alt="Toprak Granola" />
+        <div class="item__body">
+          <div class="item__name">Toprak Granola</div>
+          <div class="item__desc">El yapımı granola, süzme yoğurt, mevsim meyveleri, yer fıstığı ezmesi. (Glutensiz/çiğ karabuğday +40 TL)</div>
         </div>
+        <div class="item__price">380 TL</div>
       </a>
 
-      <!-- TOPRAK KAHVALTI -->
-      <a class="row"
-         data-name="Toprak Kahvaltı"
-         data-price="420 TL"
-         data-img="images/toprakkahvalti.webp"
-         data-desc="2 dilim ekşi mayalı ekmek, çırpılmış yumurta, domates, salatalık, zeytin, tereyağ, acuka, ezine peyniri, mevsim reçeli, yeşillik">
-        <div class="thumb"><img src="images/toprakkahvalti.webp" alt="Toprak Kahvaltı"></div>
-        <div>
-          <div class="name">Toprak Kahvaltı</div>
-          <div class="desc">2 dilim ekşi mayalı ekmek, çırpılmış yumurta…</div>
-          <div class="price">420 TL</div>
+      <a class="item" href="javascript:void(0)">
+        <img class="item__img" src="images/toprakkahvalti.webp" alt="Toprak Kahvaltı" />
+        <div class="item__body">
+          <div class="item__name">Toprak Kahvaltı</div>
+          <div class="item__desc">2 dilim ekşi mayalı ekmek, çırpılmış yumurta, domates, salatalık, zeytin, tereyağ, acuka, ezine peyniri, mevsim reçeli, yeşillik</div>
         </div>
+        <div class="item__price">420 TL</div>
       </a>
-    </div>
-
-    <div class="hint">Ürüne dokununca fotoğraflı popup açılır.</div>
+    </section>
   </main>
 
-  <!-- POPUP -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="popupCard" role="dialog" aria-label="Ürün Detayı">
-      <button class="closeBtn" id="closeBtn" aria-label="Kapat">×</button>
+  <!-- ✅ LIGHTBOX (eski sitedeki yapı) -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-close="1"></div>
 
-      <div class="popupImage">
-        <img id="pImg" alt="">
+    <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Ürün Detayı">
+      <button type="button" class="lightbox__close" aria-label="Kapat">✕</button>
+
+      <div class="lightbox__content">
+        <img id="lightboxImg" class="lightbox__img" alt="" />
+
+        <div class="lightbox__meta">
+          <div id="lightboxTitle" class="lightbox__title"></div>
+          <div id="lightboxPrice" class="lightbox__price"></div>
+        </div>
+
+        <p id="lightboxDesc" class="lightbox__desc"></p>
       </div>
-
-      <div class="popupFooter">
-        <div class="popupTitle" id="pTitle"></div>
-        <div class="popupPrice" id="pPrice"></div>
-      </div>
-
-      <p class="popupDesc" id="pDesc"></p>
     </div>
   </div>
 
   <script>
-    const overlay = document.getElementById("overlay");
-    const closeBtn = document.getElementById("closeBtn");
+    // ✅ Lightbox (eski sitedeki mantığın aynısı + açıklama alanı eklendi)
+    document.addEventListener('DOMContentLoaded', () => {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbTitle = document.getElementById('lightboxTitle');
+      const lbPrice = document.getElementById('lightboxPrice');
+      const lbDesc = document.getElementById('lightboxDesc');
+      const btnClose = lb?.querySelector('.lightbox__close');
 
-    const pImg   = document.getElementById("pImg");
-    const pTitle = document.getElementById("pTitle");
-    const pPrice = document.getElementById("pPrice");
-    const pDesc  = document.getElementById("pDesc");
+      if (!lb || !lbImg || !lbTitle || !lbPrice || !lbDesc || !btnClose) return;
 
-    function openPopup(el){
-      pImg.src = el.dataset.img;
-      pImg.alt = el.dataset.name;
+      let scrollY = 0;
 
-      pTitle.textContent = el.dataset.name;
-      pPrice.textContent = el.dataset.price;
-      pDesc.textContent  = el.dataset.desc || "";
+      const lockScroll = () => {
+        scrollY = window.scrollY || 0;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+      };
 
-      overlay.classList.add("open");
-      overlay.setAttribute("aria-hidden","false");
-    }
+      const unlockScroll = () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
+      };
 
-    function closePopup(){
-      overlay.classList.remove("open");
-      overlay.setAttribute("aria-hidden","true");
-      pImg.src = "";
-    }
+      const open = (src, alt, title, price, desc) => {
+        lbImg.src = src;
+        lbImg.alt = alt || 'Ürün fotoğrafı';
+        lbTitle.textContent = title || '';
+        lbPrice.textContent = price || '';
+        lbDesc.textContent  = desc || '';
 
-    document.querySelectorAll(".row").forEach(el=>{
-      el.addEventListener("click", (e)=>{
+        lb.classList.add('is-open');
+        lb.setAttribute('aria-hidden', 'false');
+        lockScroll();
+      };
+
+      const close = () => {
+        lb.classList.remove('is-open');
+        lb.setAttribute('aria-hidden', 'true');
+        lbImg.src = '';
+        unlockScroll();
+      };
+
+      document.addEventListener('click', (e) => {
+        const item = e.target.closest('a.item');
+        if (!item) return;
         e.preventDefault();
-        openPopup(el);
+
+        const img = item.querySelector('img.item__img');
+        if (!img) return;
+
+        const title = item.querySelector('.item__name')?.textContent || '';
+        const price = item.querySelector('.item__price')?.textContent || '';
+        const desc  = item.querySelector('.item__desc')?.textContent || '';
+
+        open(img.src, img.alt, title, price, desc);
+      });
+
+      btnClose.addEventListener('click', (e) => { e.preventDefault(); close(); });
+
+      lb.addEventListener('click', (e) => {
+        if (e.target?.dataset?.close === "1") close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
       });
     });
-
-    closeBtn.addEventListener("click", closePopup);
-    overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closePopup(); });
-    document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") closePopup(); });
   </script>
+
 </body>
 </html>
