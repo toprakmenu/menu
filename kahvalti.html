@@ -25,6 +25,8 @@
     .wrap{max-width:980px;margin:0 auto;padding:14px 12px 110px}
     h1{margin:6px 0 14px;font-size:20px}
     .grid{display:grid;gap:12px}
+
+    /* ürün kartı */
     .item{
       background:var(--card);
       border:1px solid var(--line);
@@ -69,23 +71,20 @@
       box-shadow:0 24px 60px rgba(0,0,0,.35);
       position:relative;
     }
-    .modalImg{width:100%;height:220px;background:#ddd}
-    .modalImg img{width:100%;height:100%;object-fit:cover;display:block}
+    .modalImg{width:100%;height:280px;background:#fff}
+    /* contain = kırpmaz, resmi tam gösterir */
+    .modalImg img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#fff;
+    }
     .modalBody{padding:14px}
     .modalTitle{font-size:18px;font-weight:1000;margin:0}
     .modalDesc{margin:8px 0 0;color:var(--muted);line-height:1.35}
     .modalRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
     .modalPrice{font-size:18px;font-weight:1000}
-    .btn{
-      border:none;
-      background:#111114;
-      color:#fff;
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:900;
-      cursor:pointer;
-      min-width:140px;
-    }
     .x{
       position:absolute;top:10px;right:10px;
       width:40px;height:40px;border-radius:999px;
@@ -147,7 +146,6 @@
         <p class="modalDesc" id="mDesc"></p>
         <div class="modalRow">
           <div class="modalPrice" id="mPrice"></div>
-          <button class="btn" id="addBtn">SEPETE EKLE</button>
         </div>
       </div>
     </div>
@@ -160,7 +158,6 @@
     const mTitle = document.getElementById("mTitle");
     const mDesc = document.getElementById("mDesc");
     const mPrice = document.getElementById("mPrice");
-    const addBtn = document.getElementById("addBtn");
 
     let currentItem = null;
 
@@ -190,13 +187,6 @@
     closeBtn.addEventListener("click", closeModal);
     overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeModal(); });
     document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") closeModal(); });
-
-    // Şimdilik sadece test: Sepete ekle butonu bildirim verir
-    addBtn.addEventListener("click", ()=>{
-      if(!currentItem) return;
-      alert(currentItem.dataset.name + " sepete eklendi ✅ (demo)");
-      closeModal();
-    });
   </script>
 
 </body>
