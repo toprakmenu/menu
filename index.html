@@ -1,12 +1,97 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Menu Test</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Toprak Bakery Menü</title>
+
+<style>
+body{
+margin:0;
+font-family:system-ui;
+background:#f3f3f3;
+}
+
+.topbar{
+position:sticky;
+top:0;
+background:white;
+padding:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #ddd;
+z-index:10;
+}
+
+.grid{
+padding:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.card{
+position:relative;
+height:170px;
+border-radius:14px;
+overflow:hidden;
+background:#ccc;
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.card span{
+position:absolute;
+bottom:10px;
+left:10px;
+color:white;
+font-weight:900;
+text-shadow:0 0 10px rgba(0,0,0,.7);
+}
+
+.fab{
+position:fixed;
+right:20px;
+bottom:20px;
+width:60px;
+height:60px;
+background:red;
+color:white;
+border-radius:100%;
+border:none;
+font-size:28px;
+}
+</style>
 </head>
-<body style="font-family:system-ui;padding:24px">
-  <h1>Menu çalışıyor ✅</h1>
-  <p>Tarih: 24 Şubat 2026</p>
+
+<body>
+
+<div class="topbar">
+<div>🇹🇷 TR</div>
+<div>🛒 0</div>
+</div>
+
+<div class="grid">
+
+<div class="card"><span>KAHVALTI</span></div>
+<div class="card"><span>TARTINE'LER (EKMEK ÜSTÜ)</span></div>
+<div class="card"><span>KRUVASAN SANDVİÇLER</span></div>
+<div class="card"><span>FOCACCIA SANDVİÇLER</span></div>
+<div class="card"><span>KRUVASANLAR</span></div>
+<div class="card"><span>POĞAÇALAR</span></div>
+<div class="card"><span>TATLILAR</span></div>
+<div class="card"><span>SPORCU MENÜSÜ</span></div>
+<div class="card"><span>SICAK İÇECEKLER</span></div>
+<div class="card"><span>SOĞUK İÇECEKLER</span></div>
+
+</div>
+
+<button class="fab">≡</button>
+
 </body>
 </html>
