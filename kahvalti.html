@@ -14,22 +14,17 @@
       --muted:#7a7a7a;
 
       --line:#e2e2e2;
-      --line-2:#dddddd;
 
-      /* Toprak’a özel vurgu */
       --gold:#c48a3a;
 
-      --surface:#ffffff;
-      --surface-2:#f7f7f7;
-
       --backdrop: rgba(0,0,0,.65);
-      --close-border: rgba(255,255,255,.35);
-      --close-bg: rgba(0,0,0,.35);
-      --white:#ffffff;
+
+      --closeRing: rgba(196,138,58,.95);
+      --closeBg: rgba(0,0,0,.40);
+      --white:#fff;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -37,11 +32,11 @@
       color:var(--text);
     }
 
-    /* basit üst bar (kahvalti.html için) */
+    /* üst bar */
     .topbar{
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 20;
       background: rgba(255,255,255,.96);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
@@ -57,8 +52,8 @@
       font-weight:900;
     }
     .page-title{
-      font-weight:900;
-      letter-spacing:.5px;
+      font-weight:1000;
+      letter-spacing:.6px;
     }
 
     .wrap{
@@ -66,11 +61,9 @@
       margin: 0 auto;
       padding: 14px;
     }
+    h2{ margin: 6px 0 12px; font-size: 18px; }
 
-    .section{ margin: 10px 0 26px; }
-    .section h2{ margin: 0 0 10px; font-size: 18px; letter-spacing: .2px; }
-
-    /* ITEM (eski sitedekiyle aynı) */
+    /* ürün listesi */
     .item{
       display:flex;
       align-items:center;
@@ -80,138 +73,108 @@
       background: var(--card);
       border-radius: 14px;
       text-decoration:none;
-      color: var(--text);
+      color: inherit;
       margin-bottom: 10px;
+      cursor:pointer;
     }
-
     .item__img{
-      width:72px;
-      height:72px;
-      border-radius: 12px;
-      object-fit: cover;
-      flex: 0 0 72px;
-      background: var(--surface-2);
-      border: 1px solid var(--line-2);
+      width:72px;height:72px;
+      border-radius:12px;
+      object-fit:cover;
+      border:1px solid var(--line);
+      background:#f7f7f7;
+      flex:0 0 72px;
     }
+    .item__body{ min-width:0; flex:1; }
+    .item__name{ font-weight:900; font-size:15px; }
+    .item__desc{ margin-top:4px; color:var(--muted); font-size:13px; line-height:1.25; }
+    .item__price{ font-weight:1000; white-space:nowrap; padding-left:8px; }
 
-    .item__body{ min-width: 0; flex: 1; }
-    .item__name{ font-weight: 750; font-size: 15px; }
-    .item__desc{ margin-top: 4px; font-size: 13px; color: var(--muted); line-height: 1.25; }
-    .item__price{ font-weight: 800; font-size: 14px; padding-left: 8px; white-space: nowrap; }
-
-    /* LIGHTBOX (eski sitedekiyle birebir mantık) */
+    /* LIGHTBOX */
     .lightbox{
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position:fixed; inset:0; z-index:9999;
+      display:flex; align-items:center; justify-content:center;
       padding: 16px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.20s ease, visibility 0s linear 0.20s;
+      opacity:0; visibility:hidden; pointer-events:none;
+      transition: opacity .18s ease, visibility 0s linear .18s;
     }
-
     .lightbox.is-open{
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition: opacity 0.20s ease, visibility 0s linear 0s;
+      opacity:1; visibility:visible; pointer-events:auto;
+      transition: opacity .18s ease, visibility 0s linear 0s;
     }
-
-    .lightbox__backdrop{
-      position:absolute;
-      inset:0;
+    .lb-backdrop{
+      position:absolute; inset:0;
       background: var(--backdrop);
-      opacity: 0;
-      transition: opacity 0.20s ease;
+      opacity:0;
+      transition: opacity .18s ease;
     }
-    .lightbox.is-open .lightbox__backdrop{ opacity: 1; }
+    .lightbox.is-open .lb-backdrop{ opacity:1; }
 
-    .lightbox__panel{
-      position: relative;
-      width: min(92vw, 860px);
-      background: transparent;
-      z-index: 2;
-      transform-origin: 50% 30%;
-      transform: translateY(10px) scale(0.98);
-      transition: transform 0.22s ease;
+    .lb-panel{
+      position:relative;
+      width: min(92vw, 560px);   /* ✅ ilk stile yakın: daha küçük panel */
+      transform: translateY(10px) scale(.985);
+      transition: transform .20s ease;
+      z-index:2;
     }
-    .lightbox.is-open .lightbox__panel{ transform: translateY(0) scale(1); }
+    .lightbox.is-open .lb-panel{ transform: translateY(0) scale(1); }
 
-    .lightbox__content{
-      background: var(--surface);
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      padding: 12px; /* ✅ eski görünümdeki beyaz çerçeve hissi */
+    .lb-card{
+      background: var(--white);
+      border-radius: 22px;       /* ✅ kart köşesi */
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 24px 60px rgba(0,0,0,.30);
     }
 
-    /* ✅ kritik nokta: height auto -> kırpma yok, resim tam görünür */
-    .lightbox__img{
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: var(--surface-2);
+    /* ✅ Kritik: padding yok -> görsel kartın içine “oturur” */
+    .lb-img{
+      display:block;
+      width:100%;
+      height:auto;               /* ✅ kırpma yok */
+      background:#fff;
     }
 
-    .lightbox__meta{
-      padding: 16px 6px 6px;
+    .lb-meta{
       display:flex;
-      justify-content: space-between;
       align-items:center;
-      background: var(--surface);
-      color: var(--text);
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .lb-title{
+      font-weight:1000;
+      font-size:22px;
+      line-height:1.1;
+    }
+    .lb-price{
+      font-weight:1000;
+      font-size:22px;
+      color: var(--gold);
+      white-space:nowrap;
     }
 
-    .lightbox__title{ font-weight: 900; font-size: 18px; color: var(--text); }
-    .lightbox__price{ font-weight: 1000; font-size: 18px; color: var(--gold); }
-
-    .lightbox__desc{
-      padding: 0 6px 12px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.35;
-      margin: 0;
-    }
-
-    .lightbox__close{
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 50;
-      width: 44px;
-      height: 44px;
+    /* ✅ Close: gold halkalı */
+    .lb-close{
+      position:absolute;
+      top: 12px;
+      right: 12px;
+      width: 50px;
+      height: 50px;
       border-radius: 999px;
-      border: 1px solid var(--close-border);
-      background: var(--close-bg);
-      color: var(--white);
+      border: 2px solid var(--closeRing);
+      background: var(--closeBg);
+      color: #fff;
       font-size: 22px;
-      cursor: pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* X butonu glow: (eski sitedeki gibi) */
-    .lightbox__close:hover,
-    .lightbox__close:focus,
-    .lightbox__close:focus-visible,
-    .lightbox__close:active{
-      outline: none;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
       box-shadow:
-        0 0 0 2px rgba(245,196,107,0.55),
-        0 0 10px rgba(245,196,107,0.45);
+        0 0 0 2px rgba(196,138,58,.35),
+        0 0 14px rgba(196,138,58,.25);
     }
-    .lightbox.is-open .lightbox__close{
-      box-shadow:
-        0 0 0 2px rgba(245,196,107,0.45),
-        0 0 12px rgba(245,196,107,0.35);
-    }
+    .lb-close:active{ transform: scale(.98); }
   </style>
 </head>
 
@@ -224,125 +187,107 @@
   </header>
 
   <main class="wrap">
-    <section class="section" id="kahvalti">
-      <h2>Kahvaltı</h2>
+    <h2>Kahvaltı</h2>
 
-      <a class="item" href="javascript:void(0)">
-        <img class="item__img" src="images/toprakgranola.webp" alt="Toprak Granola" />
-        <div class="item__body">
-          <div class="item__name">Toprak Granola</div>
-          <div class="item__desc">El yapımı granola, süzme yoğurt, mevsim meyveleri, yer fıstığı ezmesi. (Glutensiz/çiğ karabuğday +40 TL)</div>
-        </div>
-        <div class="item__price">380 TL</div>
-      </a>
+    <a class="item" href="javascript:void(0)"
+       data-title="Toprak Granola"
+       data-price="380 TL"
+       data-img="images/toprakgranola.webp">
+      <img class="item__img" src="images/toprakgranola.webp" alt="Toprak Granola" />
+      <div class="item__body">
+        <div class="item__name">Toprak Granola</div>
+        <div class="item__desc">El yapımı granola, süzme yoğurt, mevsim meyveleri, yer fıstığı ezmesi</div>
+      </div>
+      <div class="item__price">380 TL</div>
+    </a>
 
-      <a class="item" href="javascript:void(0)">
-        <img class="item__img" src="images/toprakkahvalti.webp" alt="Toprak Kahvaltı" />
-        <div class="item__body">
-          <div class="item__name">Toprak Kahvaltı</div>
-          <div class="item__desc">2 dilim ekşi mayalı ekmek, çırpılmış yumurta, domates, salatalık, zeytin, tereyağ, acuka, ezine peyniri, mevsim reçeli, yeşillik</div>
-        </div>
-        <div class="item__price">420 TL</div>
-      </a>
-    </section>
+    <a class="item" href="javascript:void(0)"
+       data-title="Toprak Kahvaltı"
+       data-price="420 TL"
+       data-img="images/toprakkahvalti.webp">
+      <img class="item__img" src="images/toprakkahvalti.webp" alt="Toprak Kahvaltı" />
+      <div class="item__body">
+        <div class="item__name">Toprak Kahvaltı</div>
+        <div class="item__desc">2 dilim ekşi mayalı ekmek, çırpılmış yumurta, domates, salatalık, zeytin...</div>
+      </div>
+      <div class="item__price">420 TL</div>
+    </a>
   </main>
 
-  <!-- ✅ LIGHTBOX (eski sitedeki yapı) -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <div class="lightbox__backdrop" data-close="1"></div>
+  <!-- LIGHTBOX -->
+  <div id="lb" class="lightbox" aria-hidden="true">
+    <div class="lb-backdrop" id="lbBackdrop"></div>
 
-    <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Ürün Detayı">
-      <button type="button" class="lightbox__close" aria-label="Kapat">✕</button>
+    <div class="lb-panel" role="dialog" aria-modal="true" aria-label="Ürün Fotoğrafı">
+      <button class="lb-close" id="lbClose" aria-label="Kapat">✕</button>
 
-      <div class="lightbox__content">
-        <img id="lightboxImg" class="lightbox__img" alt="" />
-
-        <div class="lightbox__meta">
-          <div id="lightboxTitle" class="lightbox__title"></div>
-          <div id="lightboxPrice" class="lightbox__price"></div>
+      <div class="lb-card">
+        <img id="lbImg" class="lb-img" alt="">
+        <div class="lb-meta">
+          <div id="lbTitle" class="lb-title"></div>
+          <div id="lbPrice" class="lb-price"></div>
         </div>
-
-        <p id="lightboxDesc" class="lightbox__desc"></p>
       </div>
     </div>
   </div>
 
   <script>
-    // ✅ Lightbox (eski sitedeki mantığın aynısı + açıklama alanı eklendi)
-    document.addEventListener('DOMContentLoaded', () => {
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lightboxImg');
-      const lbTitle = document.getElementById('lightboxTitle');
-      const lbPrice = document.getElementById('lightboxPrice');
-      const lbDesc = document.getElementById('lightboxDesc');
-      const btnClose = lb?.querySelector('.lightbox__close');
+    const lb = document.getElementById("lb");
+    const lbBackdrop = document.getElementById("lbBackdrop");
+    const lbClose = document.getElementById("lbClose");
+    const lbImg = document.getElementById("lbImg");
+    const lbTitle = document.getElementById("lbTitle");
+    const lbPrice = document.getElementById("lbPrice");
 
-      if (!lb || !lbImg || !lbTitle || !lbPrice || !lbDesc || !btnClose) return;
+    let scrollY = 0;
+    function lockScroll(){
+      scrollY = window.scrollY || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+    function unlockScroll(){
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollY);
+    }
 
-      let scrollY = 0;
+    function openLB({img, title, price, alt}){
+      lbImg.src = img;
+      lbImg.alt = alt || title || "";
+      lbTitle.textContent = title || "";
+      lbPrice.textContent = price || "";
+      lb.classList.add("is-open");
+      lb.setAttribute("aria-hidden","false");
+      lockScroll();
+    }
+    function closeLB(){
+      lb.classList.remove("is-open");
+      lb.setAttribute("aria-hidden","true");
+      lbImg.src = "";
+      unlockScroll();
+    }
 
-      const lockScroll = () => {
-        scrollY = window.scrollY || 0;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-      };
-
-      const unlockScroll = () => {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo(0, scrollY);
-      };
-
-      const open = (src, alt, title, price, desc) => {
-        lbImg.src = src;
-        lbImg.alt = alt || 'Ürün fotoğrafı';
-        lbTitle.textContent = title || '';
-        lbPrice.textContent = price || '';
-        lbDesc.textContent  = desc || '';
-
-        lb.classList.add('is-open');
-        lb.setAttribute('aria-hidden', 'false');
-        lockScroll();
-      };
-
-      const close = () => {
-        lb.classList.remove('is-open');
-        lb.setAttribute('aria-hidden', 'true');
-        lbImg.src = '';
-        unlockScroll();
-      };
-
-      document.addEventListener('click', (e) => {
-        const item = e.target.closest('a.item');
-        if (!item) return;
+    document.querySelectorAll(".item").forEach(a=>{
+      a.addEventListener("click",(e)=>{
         e.preventDefault();
-
-        const img = item.querySelector('img.item__img');
-        if (!img) return;
-
-        const title = item.querySelector('.item__name')?.textContent || '';
-        const price = item.querySelector('.item__price')?.textContent || '';
-        const desc  = item.querySelector('.item__desc')?.textContent || '';
-
-        open(img.src, img.alt, title, price, desc);
-      });
-
-      btnClose.addEventListener('click', (e) => { e.preventDefault(); close(); });
-
-      lb.addEventListener('click', (e) => {
-        if (e.target?.dataset?.close === "1") close();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
+        openLB({
+          img: a.dataset.img,
+          title: a.dataset.title,
+          price: a.dataset.price,
+          alt: a.querySelector("img")?.alt || ""
+        });
       });
     });
+
+    lbClose.addEventListener("click", closeLB);
+    lbBackdrop.addEventListener("click", closeLB);
+    document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && lb.classList.contains("is-open")) closeLB(); });
   </script>
 
 </body>
