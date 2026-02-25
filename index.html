@@ -12,18 +12,83 @@ font-family:system-ui;
 background:#f3f3f3;
 }
 
-.topbar{
-position:sticky;
-top:0;
-background:white;
-padding:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #ddd;
-z-index:10;
+/* HERO HEADER */
+.hero{
+position:relative;
+width:100%;
+height:320px;
+overflow:hidden;
+border-bottom-left-radius:22px;
+border-bottom-right-radius:22px;
 }
 
+.hero__img{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.hero__overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.55));
+z-index:1;
+}
+
+.hero__topbar{
+position:absolute;
+top:12px;
+left:14px;
+z-index:3;
+color:#fff;
+font-weight:800;
+padding:8px 12px;
+border-radius:12px;
+background:rgba(0,0,0,.25);
+border:1px solid rgba(255,255,255,.25);
+backdrop-filter:blur(8px);
+}
+
+.hero__content{
+position:absolute;
+left:16px;
+right:16px;
+bottom:18px;
+z-index:3;
+color:#fff;
+}
+
+.hero__pill{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+background:rgba(0,0,0,.35);
+border:1px solid rgba(255,255,255,.25);
+font-size:13px;
+margin-bottom:10px;
+}
+
+.hero__title{
+font-weight:1000;
+font-size:36px;
+line-height:1.05;
+text-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.hero__subtitle{
+margin-top:6px;
+font-size:16px;
+opacity:.92;
+}
+
+@media (max-width:420px){
+.hero{height:280px;}
+.hero__title{font-size:32px;}
+}
+
+/* GRID */
 .grid{
 padding:12px;
 display:grid;
@@ -40,18 +105,12 @@ background:#ccc;
 }
 
 .card img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.card img{
-width:100%;
-height:100%;
-object-fit:cover;
 position:absolute;
 top:0;
 left:0;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
 .card span{
@@ -72,172 +131,92 @@ background:linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
 z-index:1;
 }
 
-
 .site-footer{
-  width:100%;
-  text-align:center;
-  padding:40px 0 60px;
-  color:#7a7a7a;
-  font-weight:800;
-  letter-spacing:.6px;
+width:100%;
+text-align:center;
+padding:40px 0 60px;
+color:#7a7a7a;
+font-weight:800;
+letter-spacing:.6px;
 }
-
-/* HERO HEADER */
-.hero{
-  position: relative;
-  width: 100%;
-  height: 320px;
-  overflow: hidden;
-  border-bottom-left-radius: 22px;
-  border-bottom-right-radius: 22px;
-}
-
-.hero__img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.hero__overlay{
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.55));
-}
-
-.hero__content{
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 18px;
-  color: #fff;
-}
-
-.hero__pill{
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,.35);
-  border: 1px solid rgba(255,255,255,.25);
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-.hero__title{
-  font-weight: 1000;
-  font-size: 36px;
-  line-height: 1.05;
-  text-shadow: 0 10px 30px rgba(0,0,0,.35);
-}
-
-.hero__subtitle{
-  margin-top: 6px;
-  font-size: 16px;
-  opacity: .92;
-}
-
-/* Mobilde biraz kısalt */
-@media (max-width: 420px){
-  .hero{ height: 280px; }
-  .hero__title{ font-size: 32px; }
-}
-
-  .hero__topbar{
-  position: absolute;
-  top: 10px;
-  left: 14px;
-  right: 14px;
-  z-index: 3;
-  color: #fff;
-  font-weight: 700;
-}
-  
-
-  
 </style>
 </head>
 
 <body>
 
+<header class="hero">
 
-  
+<div class="hero__topbar">🇹🇷 TR</div>
 
-  <header class="hero">
-    
-    <div class="topbar">
-<div>🇹🇷 TR</div>
+<img class="hero__img" src="images/header.webp" alt="Toprak Bakery House">
+
+<div class="hero__overlay"></div>
+
+<div class="hero__content">
+<div class="hero__pill">İzmit</div>
+<div class="hero__title">Toprak Bakery House</div>
+<div class="hero__subtitle">Artizan Fırın - Kafe</div>
 </div>
-  <img class="hero__img" src="images/header.webp" alt="Toprak Bakery House">
-  <div class="hero__overlay"></div>
 
-  <div class="hero__content">
-    <div class="hero__pill">İzmit</div>
-    <div class="hero__title">Toprak Bakery House</div>
-    <div class="hero__subtitle">Artizan Fırın - Kafe</div>
-  </div>
 </header>
-
-  
 
 <div class="grid">
 
 <a href="kahvalti.html" class="card">
-  <img src="images/kahvaltı_cover.webp">
-  <span>KAHVALTI</span>
+<img src="images/kahvaltı_cover.webp">
+<span>KAHVALTI</span>
 </a>
+
 <a href="tartineler.html" class="card">
-  <img src="images/placeholder.png">
-  <span>TARTINE'LER (EKMEK ÜSTÜ)</span>
+<img src="images/placeholder.png">
+<span>TARTINE'LER (EKMEK ÜSTÜ)</span>
 </a>
 
 <a href="kruvasan_sandvic.html" class="card">
-  <img src="images/placeholder.png">
-  <span>KRUVASAN SANDVİÇLER</span>
+<img src="images/placeholder.png">
+<span>KRUVASAN SANDVİÇLER</span>
 </a>
 
 <a href="focaccia.html" class="card">
-  <img src="images/placeholder.png">
-  <span>FOCACCIA SANDVİÇLER</span>
+<img src="images/placeholder.png">
+<span>FOCACCIA SANDVİÇLER</span>
 </a>
 
 <a href="kruvasanlar.html" class="card">
-  <img src="images/placeholder.png">
-  <span>KRUVASANLAR</span>
+<img src="images/placeholder.png">
+<span>KRUVASANLAR</span>
 </a>
 
 <a href="pogacalar.html" class="card">
-  <img src="images/placeholder.png">
-  <span>POĞAÇALAR</span>
+<img src="images/placeholder.png">
+<span>POĞAÇALAR</span>
 </a>
 
 <a href="tatlilar.html" class="card">
-  <img src="images/placeholder.png">
-  <span>TATLILAR</span>
+<img src="images/placeholder.png">
+<span>TATLILAR</span>
 </a>
 
 <a href="sporcumenusu.html" class="card">
-  <img src="images/placeholder.png">
-  <span>SPORCU MENÜSÜ</span>
+<img src="images/placeholder.png">
+<span>SPORCU MENÜSÜ</span>
 </a>
 
 <a href="sicakicecekler.html" class="card">
-  <img src="images/placeholder.png">
-  <span>SICAK İÇECEKLER</span>
+<img src="images/placeholder.png">
+<span>SICAK İÇECEKLER</span>
 </a>
 
 <a href="sogukicecekler.html" class="card">
-  <img src="images/placeholder.png">
-  <span>SOĞUK İÇECEKLER</span>
+<img src="images/placeholder.png">
+<span>SOĞUK İÇECEKLER</span>
 </a>
 
 </div>
- 
- <footer class="site-footer">
-  TOPRAK BAKERY HOUSE ®
-</footer>
- 
 
+<footer class="site-footer">
+TOPRAK BAKERY HOUSE ®
+</footer>
 
 </body>
-
 </html>
