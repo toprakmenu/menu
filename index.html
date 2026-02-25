@@ -7,250 +7,252 @@
 
 <style>
 body{
-margin:0;
-font-family:system-ui;
-background:#f3f3f3;
+  margin:0;
+  font-family:system-ui;
+  background:#f3f3f3;
 }
 
 /* HERO HEADER */
 .hero{
-position:relative;
-width:100%;
-height:320px;
-overflow:hidden;
-border-bottom-left-radius:22px;
-border-bottom-right-radius:22px;
+  position:relative;
+  width:100%;
+  height:320px;
+  overflow:hidden;
+  border-bottom-left-radius:22px;
+  border-bottom-right-radius:22px;
+}
+
+/* info bar altta taşacağı için hero'nun altında yer açıyoruz */
+.hero--with-info{
+  margin-bottom:56px;
 }
 
 .hero__img{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .hero__overlay{
-position:absolute;
-inset:0;
-background:linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.55));
-z-index:1;
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.55));
+  z-index:1;
 }
 
 .hero__topbar{
-position:absolute;
-top:12px;
-left:14px;
-z-index:3;
-color:#fff;
-font-weight:800;
-padding:8px 12px;
-border-radius:12px;
-background:rgba(0,0,0,.25);
-border:1px solid rgba(255,255,255,.25);
-backdrop-filter:blur(8px);
+  position:absolute;
+  top:12px;
+  left:14px;
+  z-index:3;
+  color:#fff;
+  font-weight:800;
+  padding:8px 12px;
+  border-radius:12px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(8px);
 }
 
 .hero__content{
-position:absolute;
-left:16px;
-right:16px;
-bottom:18px;
-z-index:3;
-color:#fff;
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:18px;
+  z-index:3;
+  color:#fff;
 }
 
 .hero__pill{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-background:rgba(0,0,0,.35);
-border:1px solid rgba(255,255,255,.25);
-font-size:13px;
-margin-bottom:10px;
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.25);
+  font-size:13px;
+  margin-bottom:10px;
 }
 
 .hero__title{
-font-weight:1000;
-font-size:36px;
-line-height:1.05;
-text-shadow:0 10px 30px rgba(0,0,0,.35);
+  font-weight:1000;
+  font-size:36px;
+  line-height:1.05;
+  text-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .hero__subtitle{
-margin-top:6px;
-font-size:16px;
-opacity:.92;
+  margin-top:6px;
+  font-size:16px;
+  opacity:.92;
 }
 
 @media (max-width:420px){
-.hero{height:280px;}
-.hero__title{font-size:32px;}
+  .hero{height:280px;}
+  .hero__title{font-size:32px;}
+}
+
+/* INFO (hero'nun devamı gibi) */
+.info{
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:-46px;
+  z-index:4;
+
+  padding:14px 14px;
+  background:rgba(255,255,255,.96);
+  border:1px solid #e6e6e6;
+  border-radius:16px;
+}
+
+.info__title{
+  font-weight:1000;
+  font-size:18px;
+  color:#2b2b2b;
+}
+
+.info__sub{
+  margin-top:4px;
+  color:#7a7a7a;
+  font-weight:600;
+  font-size:14px;
 }
 
 /* GRID */
 .grid{
-  padding: 8px 12px 12px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+  padding: 12px 12px 12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
 .card{
-position:relative;
-height:170px;
-border-radius:14px;
-overflow:hidden;
-background:#ccc;
+  position:relative;
+  height:170px;
+  border-radius:14px;
+  overflow:hidden;
+  background:#ccc;
 }
 
 .card img{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .card span{
-position:absolute;
-bottom:10px;
-left:10px;
-color:white;
-font-weight:900;
-text-shadow:0 0 10px rgba(0,0,0,.7);
-z-index:2;
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  color:white;
+  font-weight:900;
+  text-shadow:0 0 10px rgba(0,0,0,.7);
+  z-index:2;
 }
 
 .card::after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
-z-index:1;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
+  z-index:1;
 }
-
-
-  
-
-.info{
-  margin: 10px 12px 4px;
-  padding: 14px 14px;
-  background: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.06);
-}
-
-.info__title{
-  font-weight: 1000;
-  font-size: 18px;
-  color: #2b2b2b;
-}
-
-.info__sub{
-  margin-top: 4px;
-  color: #7a7a7a;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-
-
-  
 
 .site-footer{
-width:100%;
-text-align:center;
-padding:40px 0 60px;
-color:#7a7a7a;
-font-weight:800;
-letter-spacing:.6px;
+  width:100%;
+  text-align:center;
+  padding:40px 0 60px;
+  color:#7a7a7a;
+  font-weight:800;
+  letter-spacing:.6px;
 }
 </style>
 </head>
 
 <body>
 
-<header class="hero">
+<header class="hero hero--with-info">
 
-<div class="hero__topbar">🇹🇷 TR</div>
+  <div class="hero__topbar">🇹🇷 TR</div>
 
-<img class="hero__img" src="images/header.webp" alt="Toprak Bakery House">
+  <img class="hero__img" src="images/header.webp" alt="Toprak Bakery House">
 
-<div class="hero__overlay"></div>
+  <div class="hero__overlay"></div>
 
-<div class="hero__content">
-<div class="hero__pill">İzmit</div>
-<div class="hero__title">Toprak Bakery House</div>
-<div class="hero__subtitle">Artizan Fırın - Kafe</div>
-</div>
+  <div class="hero__content">
+    <div class="hero__pill">İzmit</div>
+    <div class="hero__title">Toprak Bakery House</div>
+    <div class="hero__subtitle">Artizan Fırın - Kafe</div>
+  </div>
+
+  <section class="info">
+    <div class="info__title">Toprak Bakery House</div>
+    <div class="info__sub">QR Menü • Servis Süresi: 15–20 dk</div>
+  </section>
 
 </header>
 
-  <section class="info">
-  <div class="info__title">Toprak Bakery House</div>
-  <div class="info__sub">QR Menü • Servis Süresi: 15–20 dk</div>
-</section>
-  
-
 <div class="grid">
 
-<a href="kahvalti.html" class="card">
-<img src="images/kahvaltı_cover.webp">
-<span>KAHVALTI</span>
-</a>
+  <a href="kahvalti.html" class="card">
+    <img src="images/kahvaltı_cover.webp">
+    <span>KAHVALTI</span>
+  </a>
 
-<a href="tartineler.html" class="card">
-<img src="images/placeholder.png">
-<span>TARTINE'LER (EKMEK ÜSTÜ)</span>
-</a>
+  <a href="tartineler.html" class="card">
+    <img src="images/placeholder.png">
+    <span>TARTINE'LER (EKMEK ÜSTÜ)</span>
+  </a>
 
-<a href="kruvasan_sandvic.html" class="card">
-<img src="images/placeholder.png">
-<span>KRUVASAN SANDVİÇLER</span>
-</a>
+  <a href="kruvasan_sandvic.html" class="card">
+    <img src="images/placeholder.png">
+    <span>KRUVASAN SANDVİÇLER</span>
+  </a>
 
-<a href="focaccia.html" class="card">
-<img src="images/placeholder.png">
-<span>FOCACCIA SANDVİÇLER</span>
-</a>
+  <a href="focaccia.html" class="card">
+    <img src="images/placeholder.png">
+    <span>FOCACCIA SANDVİÇLER</span>
+  </a>
 
-<a href="kruvasanlar.html" class="card">
-<img src="images/placeholder.png">
-<span>KRUVASANLAR</span>
-</a>
+  <a href="kruvasanlar.html" class="card">
+    <img src="images/placeholder.png">
+    <span>KRUVASANLAR</span>
+  </a>
 
-<a href="pogacalar.html" class="card">
-<img src="images/placeholder.png">
-<span>POĞAÇALAR</span>
-</a>
+  <a href="pogacalar.html" class="card">
+    <img src="images/placeholder.png">
+    <span>POĞAÇALAR</span>
+  </a>
 
-<a href="tatlilar.html" class="card">
-<img src="images/placeholder.png">
-<span>TATLILAR</span>
-</a>
+  <a href="tatlilar.html" class="card">
+    <img src="images/placeholder.png">
+    <span>TATLILAR</span>
+  </a>
 
-<a href="sporcumenusu.html" class="card">
-<img src="images/placeholder.png">
-<span>SPORCU MENÜSÜ</span>
-</a>
+  <a href="sporcumenusu.html" class="card">
+    <img src="images/placeholder.png">
+    <span>SPORCU MENÜSÜ</span>
+  </a>
 
-<a href="sicakicecekler.html" class="card">
-<img src="images/placeholder.png">
-<span>SICAK İÇECEKLER</span>
-</a>
+  <a href="sicakicecekler.html" class="card">
+    <img src="images/placeholder.png">
+    <span>SICAK İÇECEKLER</span>
+  </a>
 
-<a href="sogukicecekler.html" class="card">
-<img src="images/placeholder.png">
-<span>SOĞUK İÇECEKLER</span>
-</a>
+  <a href="sogukicecekler.html" class="card">
+    <img src="images/placeholder.png">
+    <span>SOĞUK İÇECEKLER</span>
+  </a>
 
 </div>
 
 <footer class="site-footer">
-TOPRAK BAKERY HOUSE ®
+  TOPRAK BAKERY HOUSE ®
 </footer>
 
 </body>
