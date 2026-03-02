@@ -175,7 +175,9 @@
 <body>
 
   <header class="topbar">
-    <a class="back" href="index.html">← GERİ</a>
+    <a class="back" href="index.html" onclick="if(history.length>1){history.back(); return false;}">
+  ← GERİ
+</a>
     <div class="page-title">POĞAÇALAR</div>
     <div class="spacer"></div>
   </header>
