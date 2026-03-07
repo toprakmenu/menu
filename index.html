@@ -18,16 +18,33 @@ body{
   width:100%;
   height:320px;
   overflow:hidden;
-  border-bottom-left-radius:0px;
-  border-bottom-right-radius:0px;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+  touch-action:pan-y;
+}
+
+.hero__slider{
+  position:absolute;
+  inset:0;
+}
+
+.hero__slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .8s ease;
+  pointer-events:none;
+}
+
+.hero__slide.is-active{
+  opacity:1;
 }
 
 .hero__img{
-  position:absolute;
-  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
 }
 
 .hero__overlay{
@@ -55,7 +72,7 @@ body{
   position:absolute;
   left:16px;
   right:16px;
-  bottom:18px;
+  bottom:36px;
   z-index:3;
   color:#fff;
 }
@@ -83,37 +100,61 @@ body{
   opacity:.92;
 }
 
+.hero__dots{
+  position:absolute;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  z-index:3;
+  display:flex;
+  gap:8px;
+}
+
+.hero__dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.35);
+  transition:all .25s ease;
+  cursor:pointer;
+}
+
+.hero__dot.is-active{
+  width:22px;
+  background:#fff;
+}
+
 @media (max-width:420px){
   .hero{height:280px;}
   .hero__title{font-size:32px;}
 }
 
-/* INFO (hero'nun devamı gibi ama üstüne binmeden) */
+/* INFO */
 .info{
-  margin: 10px 12px 8px;
-  padding: 14px 14px;
-  background: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 16px;
-  /* ayrı kutu gibi durmasın diye shadow yok */
+  margin:10px 12px 8px;
+  padding:14px 14px;
+  background:#fff;
+  border:1px solid #e6e6e6;
+  border-radius:16px;
 }
 
 .info__title{
-  font-weight: 1000;
-  font-size: 18px;
-  color: #2b2b2b;
+  font-weight:1000;
+  font-size:18px;
+  color:#2b2b2b;
 }
 
 .info__sub{
-  margin-top: 4px;
-  color: #7a7a7a;
-  font-weight: 600;
-  font-size: 14px;
+  margin-top:4px;
+  color:#7a7a7a;
+  font-weight:600;
+  font-size:14px;
 }
 
 /* GRID */
 .grid{
-  padding: 8px 12px 12px;
+  padding:8px 12px 12px;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
@@ -167,15 +208,33 @@ body{
 
 <body>
 
-<header class="hero">
-  <div class="hero__topbar">🇹🇷 TR</div>
-  <img class="hero__img" src="images/header.webp" alt="Toprak Bakery House">
+<header class="hero" id="hero">
+  <div class="hero__slider">
+    <div class="hero__slide is-active">
+      <img class="hero__img" src="images/header1.webp" alt="Toprak Bakery House">
+    </div>
+    <div class="hero__slide">
+      <img class="hero__img" src="images/header2.webp" alt="Toprak Bakery House">
+    </div>
+    <div class="hero__slide">
+      <img class="hero__img" src="images/header3.webp" alt="Toprak Bakery House">
+    </div>
+  </div>
+
   <div class="hero__overlay"></div>
+
+  <div class="hero__topbar">🇹🇷 TR</div>
 
   <div class="hero__content">
     <div class="hero__pill">İzmit</div>
     <div class="hero__title">Toprak Bakery House</div>
     <div class="hero__subtitle">Artizan Fırın - Kafe</div>
+  </div>
+
+  <div class="hero__dots" id="heroDots">
+    <div class="hero__dot is-active" data-index="0"></div>
+    <div class="hero__dot" data-index="1"></div>
+    <div class="hero__dot" data-index="2"></div>
   </div>
 </header>
 
@@ -236,20 +295,108 @@ body{
   </a>
 
   <a href="ekmekler.html" class="card">
-  <img src="images/ekmekler.webp">
-  <span>EKMEKLER</span>
-</a>
+    <img src="images/ekmekler.webp">
+    <span>EKMEKLER</span>
+  </a>
 
-<a href="tezgahurunleri.html" class="card">
-  <img src="images/tezgahurunleri.webp">
-  <span>TEZGAH ÜRÜNLERİ</span>
-</a>
-  
+  <a href="tezgahurunleri.html" class="card">
+    <img src="images/tezgahurunleri.webp">
+    <span>TEZGAH ÜRÜNLERİ</span>
+  </a>
 </div>
 
 <footer class="site-footer">
   TOPRAK BAKERY HOUSE ®
 </footer>
+
+<script>
+(function(){
+  const slides = document.querySelectorAll(".hero__slide");
+  const dots = document.querySelectorAll(".hero__dot");
+  const hero = document.getElementById("hero");
+  let current = 0;
+  const total = slides.length;
+  let intervalId = null;
+
+  function showSlide(index){
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === index);
+    });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === index);
+    });
+    current = index;
+  }
+
+  function nextSlide(){
+    let next = current + 1;
+    if(next >= total) next = 0;
+    showSlide(next);
+  }
+
+  function prevSlide(){
+    let prev = current - 1;
+    if(prev < 0) prev = total - 1;
+    showSlide(prev);
+  }
+
+  function startAuto(){
+    stopAuto();
+    intervalId = setInterval(nextSlide, 4000);
+  }
+
+  function stopAuto(){
+    if(intervalId){
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const index = Number(dot.dataset.index);
+      showSlide(index);
+      startAuto();
+    });
+  });
+
+  let startX = 0;
+  let startY = 0;
+  let isTouching = false;
+
+  hero.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    isTouching = true;
+    stopAuto();
+  }, {passive:true});
+
+  hero.addEventListener("touchend", (e) => {
+    if(!isTouching) return;
+    const touch = e.changedTouches[0];
+    const diffX = touch.clientX - startX;
+    const diffY = touch.clientY - startY;
+
+    if(Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)){
+      if(diffX < 0){
+        nextSlide();
+      }else{
+        prevSlide();
+      }
+    }
+
+    isTouching = false;
+    startAuto();
+  }, {passive:true});
+
+  hero.addEventListener("mouseenter", stopAuto);
+  hero.addEventListener("mouseleave", startAuto);
+
+  showSlide(0);
+  startAuto();
+})();
+</script>
 
 </body>
 </html>
